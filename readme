@@ -1,0 +1,9 @@
+#Contains the initial testing and data for 707GR1 ONT having RTL9706C SoC
+Login wih deafult initals @192.68.1.1 admin:password. Change enable telnet access in /advance/remote access by using element inspection in browser. Login telnet with new credentials to get access. After each telnet session new password reset may be required.
+
+]cd /var
+# cat boaSuper.passwd
+admin:$1$$GFabSnd4nXqHWIATJlFBy.
+# cat boaUser.passwd
+user:$1$$ex9cQFo.PV11eSLXJFZuj.
+admin:$1$$GFabSnd4nXqHWIATJlFBy.
