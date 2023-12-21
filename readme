@@ -1,7 +1,31 @@
 #Contains the initial testing and data for 707GR1 ONT having RTL9706C SoC
-Login wih deafult initals @192.68.1.1 admin:password. Change enable telnet access in /advance/remote access by using element inspection in browser. Login telnet with new credentials to get access. After each telnet session new password reset may be required.
 
-]cd /var
+1: Login wih deafult initals @192.68.1.1 admin:password. Change enable telnet access in /advance/remote access by using element inspection in browser. Login telnet with new credentials to get access. After each telnet session new password reset may be required.
+
+2: Login to ONT via telnet, use "sh" to get linux shell access. (The realtek chipset has dual firmware structure we will revert to the backup firmware).
+
+3: In terminal: nv getenv sw_commit
+will get 2 results:
+a: If sw_commit return 0 then do this to switch back:
+nv setenv sw_commit 1
+nv setenv sw_active 1
+reboot
+b: If sw_commit return 1 then do this to switch back:
+nv setenv sw_commit 0
+nv setenv sw_active 0
+reboot
+
+4: After reboot the ONT will boot into backup firmware where ONT can be replaced bysome other firmware. Login to ONT via 192.168.1.1 with default credentials as admin:password.
+
+5: Go to the upgrade page via url http://192.168.1.1/upgrade.asp if this page doesnt open then there is another hidden page http://192.168.1.1/index2.asp this will open the upgrade page then upload the firmware via this page. The ONT will reboot to the new firmware which is unlocked.
+
+6: Hard reset the ONT by holding the reset button at the back for 10-15 seconds while device is powered on. This will reset the device and new firmware will be accessible at 192.168.1.1 with the credentials admin:MACofONTinCAPS.
+
+
+
+
+Other findings while investigatin the file structure:
+cd /var
 # cat boaSuper.passwd
 admin:$1$$GFabSnd4nXqHWIATJlFBy.
 # cat boaUser.passwd
@@ -12,4 +36,4 @@ admin:$1$$GFabSnd4nXqHWIATJlFBy.:0:0::/tmp:/bin/cli
 adsl:$1$$m9g7v7tSyWPyjvelclu6D1:0:0::/tmp:/bin/cli
 user:$1$$ex9cQFo.PV11eSLXJFZuj.:1:0::/tmp:/bin/cli
 
-
+The web server is BoA which holds the Auth in simple files mentioned above.
